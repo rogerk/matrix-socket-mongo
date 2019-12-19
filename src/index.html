@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Matrix Socket IO Test</title>
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <h2>Matrix Socket IO Mongo DB Test</h2>
+
+        <form id="form">
+            <div
+                style="border:1px solid black; padding-top:5px; padding-bottom:5px;"
+            >
+                Create a new matrix (unspecified rows / columns creates the
+                default size):
+                <div style="margin-top:5px;">
+                    <label for="rows">Rows:</label>
+                    <select class="custom-select" size="4" id="rows">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8" selected>8</option>
+                    </select>
+                    <label for="cols">Columns:</label>
+                    <select class="custom-select" size="4" id="cols">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8" selected>8</option>
+                    </select>
+                    <label for="color">Color:</label>
+                    <input type="color" value="#FFFFFF" id="color" />
+                    <button id="reset" type="submit">
+                        RESET
+                    </button>
+                </div>
+            </div>
+            <div
+                style="border:1px solid black; margin-top: 20px; padding-top:5px; padding-bottom:5px;"
+            >
+                <label for="allmatrix">Display all matrix coordinates:</label>
+                <button id="allmatrix" type="submit">
+                    ALL MATRIX
+                </button>
+            </div>
+            <div
+                style="border:1px solid black;margin-top: 20px; padding-top:5px; padding-bottom:5px;"
+            >
+                Display one or more x,y matrix coordinates:
+                <div style="margin-top:5px;">
+                    <label for="x">Select x coordinates:</label>
+                    <select class="custom-select" size="3" multiple id="x">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <label for="y">Select y coordinates:</label>
+                    <select class="custom-select" size="3" multiple id="y">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <button id="pixels" type="submit">
+                        PIXELS
+                    </button>
+                </div>
+            </div>
+            <div
+                style="border:1px solid black;margin-top: 20px; padding-top:5px; padding-bottom:5px;"
+            >
+                Update the color of one or more x,y matrix coordinates:
+                <div style="margin-top:5px;">
+                    <label for="upsatex">Select x coordinates:</label>
+                    <select
+                        class="custom-select"
+                        size="3"
+                        multiple
+                        id="updatex"
+                    >
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <label for="updatey">Select y coordinates:</label>
+                    <select
+                        class="custom-select"
+                        size="3"
+                        multiple
+                        id="updatey"
+                    >
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <label for="updatecolor">Color:</label>
+                    <input type="color" value="#FFFFFF" id="updatecolor" />
+                    <button id="updatepixels" type="submit">
+                        UPDATE PIXELS
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div style="margin-top:20px;">Output</div>
+        <textarea id="output" cols="40" rows="20"></textarea>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script language="javascript" type="text/javascript">
+            const socketUri = "http://localhost:4001";
+            const socket = io.connect(socketUri);
+            socket.on("ALL_MATRIX_RESPONSE", data => {
+                if (data[0].rows) {
+                    $("#rows").val(data[0].rows);
+                }
+                if (data[0].cols) {
+                    $("#cols").val(data[0].cols);
+                }
+                $("#output").text(JSON.stringify(data, undefined, 2));
+            });
+            socket.on("PIXELS_RESPONSE", data => {
+                $("#output").text(JSON.stringify(data, undefined, 2));
+            });
+            socket.on("RESET_RESPONSE", data => {
+                $("#output").text(JSON.stringify(data, undefined, 2));
+            });
+            socket.on("UPDATE_PIXELS_RESPONSE", data => {
+                $("#output").text(JSON.stringify(data, undefined, 2));
+            });
+            $("#allmatrix").click(() => {
+                socket.emit("ALL_MATRIX");
+                return false;
+            });
+
+            $(document).ready(() => {
+                socket.emit("ALL_MATRIX");
+            });
+
+            $("#pixels").click(() => {
+                let xvals = $("#x").val();
+                let yvals = $("#y").val();
+                if (xvals.length == 0) {
+                    let options = $("#x option");
+                    xvals = $.map(options, function(option) {
+                        return option.value;
+                    });
+                }
+                if (yvals.length == 0) {
+                    let options = $("#y option");
+                    yvals = $.map(options, function(option) {
+                        return option.value;
+                    });
+                }
+                const coords = [];
+
+                for (let x = 0; x < xvals.length; x++) {
+                    for (let y = 0; y < yvals.length; y++) {
+                        const xy = [];
+                        xy[0] = xvals[x];
+                        xy[1] = yvals[y];
+                        coords.push(xy);
+                    }
+                }
+                socket.emit("PIXELS", coords);
+                return false;
+            });
+            $("#reset").click(() => {
+                const rows = $("#rows").val();
+                const cols = $("#cols").val();
+                const color = $("#color").val();
+                adjustRowsColumns(rows, cols);
+                socket.emit("RESET", rows, cols, color);
+                return false;
+            });
+            $("#updatepixels").click(() => {
+                let xvals = $("#updatex").val();
+                let yvals = $("#updatey").val();
+                if (xvals.length == 0) {
+                    let options = $("#x option");
+                    xvals = $.map(options, function(option) {
+                        return option.value;
+                    });
+                }
+                if (yvals.length == 0) {
+                    let options = $("#y option");
+                    yvals = $.map(options, function(option) {
+                        return option.value;
+                    });
+                }
+                const coords = [];
+                const color = $("#updatecolor").val();
+                for (let x = 0; x < xvals.length; x++) {
+                    for (let y = 0; y < yvals.length; y++) {
+                        const xy = [];
+                        xy[0] = xvals[x];
+                        xy[1] = yvals[y];
+                        coords.push(xy);
+                    }
+                }
+                socket.emit("UPDATE_PIXELS", coords, color);
+                return false;
+            });
+
+            const adjustRowsColumns = (rows, cols) => {
+                $("#x").empty();
+                $("#y").empty();
+                $("#updatex").empty();
+                $("#updatey").empty();
+
+                for (let i = 0; i < rows; i++) {
+                    $("#x").append(
+                        $("<option></option>")
+                            .attr("value", i)
+                            .text(i)
+                    );
+                    $("#updatex").append(
+                        $("<option></option>")
+                            .attr("value", i)
+                            .text(i)
+                    );
+                }
+                for (let i = 0; i < cols; i++) {
+                    $("#y").append(
+                        $("<option></option>")
+                            .attr("value", i)
+                            .text(i)
+                    );
+                    $("#updatey").append(
+                        $("<option></option>")
+                            .attr("value", i)
+                            .text(i)
+                    );
+                }
+            };
+        </script>
+    </body>
+</html>
