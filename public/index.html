@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Matrix Socket IO Test</title>
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <h2>Matrix Socket IO Mongo DB Test</h2>
+
+        <form id="form">
+            <div
+                style="border:1px solid black; padding-top:5px; padding-bottom:5px;"
+            >
+                Create a new matrix (unspecified rows / columns creates the
+                default size):
+                <div style="margin-top:5px;">
+                    <label for="rows">Rows:</label>
+                    <select class="custom-select" size="4" id="rows">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8" selected>8</option>
+                    </select>
+                    <label for="cols">Columns:</label>
+                    <select class="custom-select" size="4" id="cols">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8" selected>8</option>
+                    </select>
+                    <label for="color">Color:</label>
+                    <input type="color" value="#FFFFFF" id="color" />
+                    <button id="reset" type="submit">
+                        RESET
+                    </button>
+                </div>
+            </div>
+            <div
+                style="border:1px solid black; margin-top: 20px; padding-top:5px; padding-bottom:5px;"
+            >
+                <label for="allmatrix">Display all matrix coordinates:</label>
+                <button id="allmatrix" type="submit">
+                    ALL MATRIX
+                </button>
+            </div>
+            <div
+                style="border:1px solid black;margin-top: 20px; padding-top:5px; padding-bottom:5px;"
+            >
+                Display one or more x,y matrix coordinates:
+                <div style="margin-top:5px;">
+                    <label for="x">Select x coordinates:</label>
+                    <select class="custom-select" size="3" multiple id="x">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <label for="y">Select y coordinates:</label>
+                    <select class="custom-select" size="3" multiple id="y">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <button id="pixels" type="submit">
+                        PIXELS
+                    </button>
+                </div>
+            </div>
+            <div
+                style="border:1px solid black;margin-top: 20px; padding-top:5px; padding-bottom:5px;"
+            >
+                Update the color of one or more x,y matrix coordinates:
+                <div style="margin-top:5px;">
+                    <label for="upsatex">Select x coordinates:</label>
+                    <select
+                        class="custom-select"
+                        size="3"
+                        multiple
+                        id="updatex"
+                    >
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <label for="updatey">Select y coordinates:</label>
+                    <select
+                        class="custom-select"
+                        size="3"
+                        multiple
+                        id="updatey"
+                    >
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <label for="updatecolor">Color:</label>
+                    <input type="color" value="#FFFFFF" id="updatecolor" />
+                    <button id="updatepixels" type="submit">
+                        UPDATE PIXELS
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div style="margin-top:20px;">Output</div>
+        <textarea id="output" cols="40" rows="20"></textarea>
+    </body>
+</html>
