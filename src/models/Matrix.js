@@ -62,7 +62,6 @@ mongoose.set("useFindAndModify", false);
 matrixSchema.statics.findByCoordinates = async function(coordinates) {
     const matchOrCond = [];
     const projectOrCond = [];
-    const xycoord = [];
 
     // Build mongoose query conditions based on input coordinates..
 
@@ -74,15 +73,16 @@ matrixSchema.statics.findByCoordinates = async function(coordinates) {
         const eqXCond = [];
         const eqYCond = [];
         const projectAnd = [];
+        const xycoord = [];
         if (coordinates[i][0]) {
-            xcoord = { "matrix.x": coordinates[i][0] };
+            xcoord = { x: coordinates[i][0] };
             xycoord.push(xcoord);
             eqXCond = ["$$matrix.x", coordinates[i][0]];
             eqx = { $eq: eqXCond };
             projectAnd.push(eqx);
         }
         if (coordinates[i][1]) {
-            ycoord = { "matrix.y": coordinates[i][1] };
+            ycoord = { y: coordinates[i][1] };
             xycoord.push(ycoord);
             eqYCond = ["$$matrix.y", coordinates[i][1]];
             eqy = { $eq: eqYCond };
@@ -99,7 +99,11 @@ matrixSchema.statics.findByCoordinates = async function(coordinates) {
         .aggregate([
             {
                 $match: {
-                    $or: matchOrCond
+                    matrix: {
+                        $elemMatch: {
+                            $or: matchOrCond
+                        }
+                    }
                 }
             },
             {
