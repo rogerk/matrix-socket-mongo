@@ -38,7 +38,8 @@ mongoose.set("useFindAndModify", false);
 
 /**
  * Returns an array of matrix pixel objects given an array of coordinates.
- * Input: Array of coorinates: [["0","0"], ["0","3], ["2","4"] ... ]
+ * Example:
+ * Input: Array of coorinates: [["0","0"], ["0","3]]
  * Output: Array of matrix pixels:
  * [
  * {
@@ -51,11 +52,10 @@ mongoose.set("useFindAndModify", false);
  *     },
  *     {
  *       "color": "#FFFFFF",
- *       "_id": "01",
+ *       "_id": "03",
  *       "x": "0",
- *       "y": "1"
- *     },
- *     ...
+ *       "y": "3"
+ *     }
  *   ]
  *  }
  */
