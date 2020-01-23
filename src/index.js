@@ -1,5 +1,6 @@
 import $ from "jquery";
 import io from "socket.io-client";
+import "./styles/index.scss";
 
 const socketUri = "http://localhost:4001";
 const socket = io.connect(socketUri);
@@ -13,13 +14,24 @@ socket.on("ALL_MATRIX_RESPONSE", data => {
     $("#output").text(JSON.stringify(data, undefined, 2));
 });
 socket.on("PIXELS_RESPONSE", data => {
-    $("#output").text(JSON.stringify(data, undefined, 2));
+    $("#output").text(JSON.stringify(data.pixels, undefined, 2));
+    $("#aggregation").text(JSON.stringify(data.aggregation, undefined, 4));
+    console.log("PROJECT:" + data.project);
 });
 socket.on("RESET_RESPONSE", data => {
     $("#output").text(JSON.stringify(data, undefined, 2));
 });
 socket.on("UPDATE_PIXELS_RESPONSE", data => {
-    $("#output").text(JSON.stringify(data, undefined, 2));
+    $("#output").text(JSON.stringify(data.updated, undefined, 2));
+    $("#aggregation").text(
+        JSON.stringify(data.aggregation.query, undefined, 4)
+    );
+    $("#aggregation").append(
+        "," + JSON.stringify(data.aggregation.update, undefined, 4)
+    );
+    $("#aggregation").append(
+        "," + JSON.stringify(data.aggregation.options, undefined, 4)
+    );
 });
 $("#allmatrix").click(() => {
     socket.emit("ALL_MATRIX");
