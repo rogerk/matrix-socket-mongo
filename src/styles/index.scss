@@ -1,0 +1,46 @@
+$bgcolor: #f5f5f5;
+$margin-left: 10px;
+$margin-right: 10px;
+$div-padding-left: 10px;
+$div-padding-right: 10px;
+$div-border: 1px solid black;
+$div-margin-top: 20px;
+$div-padding-top: 5px;
+$div-padding-bottom: 5px;
+
+body {
+    background-color: $bgcolor;
+    margin-left: $margin-left;
+    margin-right: $margin-right;
+}
+
+.outer {
+    border: $div-border;
+    padding-left: $div-padding-left;
+    padding-right: $div-padding-right;
+    margin-top: $div-margin-top;
+    padding-top: $div-padding-top;
+    padding-bottom: $div-padding-bottom;
+}
+
+.control {
+    margin-top: 5px;
+}
+
+.output-control {
+    margin-top: 10px;
+}
+
+#output {
+    color: blue;
+    background-color: #fffff0;
+}
+
+#aggregation {
+    color: blue;
+    background-color: #fffff0;
+}
+
+.custom-select {
+    background-color: #fffff0;
+}
