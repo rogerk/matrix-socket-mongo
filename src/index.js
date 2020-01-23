@@ -19,6 +19,7 @@ socket.on("PIXELS_RESPONSE", data => {
     console.log("PROJECT:" + data.project);
 });
 socket.on("RESET_RESPONSE", data => {
+    $("#aggregation").text("");
     $("#output").text(JSON.stringify(data, undefined, 2));
 });
 socket.on("UPDATE_PIXELS_RESPONSE", data => {
@@ -34,6 +35,7 @@ socket.on("UPDATE_PIXELS_RESPONSE", data => {
     );
 });
 $("#allmatrix").click(() => {
+    $("#aggregation").text("");
     socket.emit("ALL_MATRIX");
     return false;
 });
