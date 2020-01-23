@@ -123,6 +123,7 @@ matrixSchema.statics.findByCoordinates = async function(coordinates) {
             }
         ])
         .toArray();
+
     let match = { $match: { matrix: { $elemMatch: { $or: matchOrCond } } } };
     let project = {
         $project: {
@@ -143,6 +144,7 @@ matrixSchema.statics.findByCoordinates = async function(coordinates) {
         pixels: pixels,
         aggregation: aggregation
     };
+
     return result;
 };
 
