@@ -14,3 +14,12 @@ To run the sample:
     -   npm run build
     -   npm start
 -   Visit the \<project root dir\>/dist/index.html page.
+
+Technologies Used:
+
+-   [HTML5](https://html.spec.whatwg.org/multipage/)
+-   [Bootstrap](https://getbootstrap.com/)
+-   [sass (scss)](https://sass-lang.com/)
+-   [socket.io](https://socket.io/)
+-   [Node Express](http://expressjs.com/)
+-   [MongoDB](https://www.mongodb.com/)
