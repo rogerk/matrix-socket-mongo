@@ -1,6 +1,7 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 module.exports = {
     context: __dirname,
     entry: "./src/index.js",
@@ -12,7 +13,7 @@ module.exports = {
                 use: ["babel-loader"]
             },
             {
-                test: /\.scss$/,
+                test: /\.(sa|sc|c)ss$/,
                 use: ["style-loader", "css-loader", "sass-loader"]
             }
         ]
@@ -23,7 +24,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: "Hello Webpack bundled JavaScript Project",
+            title: "MongoDB Aggregation Project",
             template: "./public/index.html"
         })
     ],
