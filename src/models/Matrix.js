@@ -123,101 +123,28 @@ matrixSchema.statics.findByCoordinates = async function(coordinates) {
             }
         ])
         .toArray();
-    return pixels;
-};
-
-/** 
- * This is an example of the mongoose (mongodb) query..
- 
-    let pixels = await Matrix.collection
-        .aggregate([
-            {
-                $match: {
-                    $or: [
-                        {
-                            $and: [{ "matrix.x": "0" }, { "matrix.y": "0" }]
-                        },
-                        {
-                            $and: [{ "matrix.x": "0" }, { "matrix.y": "1" }]
-                        },
-                        {
-                            $and: [{ "matrix.x": "0" }, { "matrix.y": "2" }]
-                        }
-                    ]
+    let match = { $match: { matrix: { $elemMatch: { $or: matchOrCond } } } };
+    let project = {
+        $project: {
+            matrix: {
+                $filter: {
+                    input: "$matrix",
+                    as: "matrix",
+                    cond: { $or: projectOrCond }
                 }
             },
-            {
-                $project: {
-                    matrix: {
-                        $filter: {
-                            input: "$matrix",
-                            as: "matrix",
-                            cond: {
-                                $or: [
-                                    {
-                                        $and: [
-                                            { $eq: ["$$matrix.x", "0"] },
-                                            { $eq: ["$$matrix.y", "0"] }
-                                        ]
-                                    },
-                                    {
-                                        $and: [
-                                            { $eq: ["$$matrix.x", "0"] },
-                                            { $eq: ["$$matrix.y", "1"] }
-                                        ]
-                                    },
-                                    {
-                                        $and: [
-                                            { $eq: ["$$matrix.x", "0"] },
-                                            { $eq: ["$$matrix.y", "2"] }
-                                        ]
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    _id: 0
-                }
-            }
-        ])
-        .toArray();
-    return pixels;
+            rows: 1,
+            cols: 1,
+            _id: 1
+        }
+    };
+    let aggregation = [match, project];
+    let result = {
+        pixels: pixels,
+        aggregation: aggregation
+    };
+    return result;
 };
-
-    let pixels = await Matrix.collection
-        .aggregate([
-            {
-                $match: {
-                    $or: [
-                        {
-                            $and: [{ "matrix.x": "0" }]
-                        }
-                    ]
-                }
-            },
-            {
-                $project: {
-                    matrix: {
-                        $filter: {
-                            input: "$matrix",
-                            as: "matrix",
-                            cond: {
-                                $or: [
-                                    {
-                                        $and: [{ $eq: ["$$matrix.x", "0"] }]
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    _id: 0
-                }
-            }
-        ])
-        .toArray();
-    return pixels;
-};
-*/
 
 /**
  * Creates a new matrix given specified rows columns and pixel color.
@@ -276,6 +203,7 @@ matrixSchema.statics.updatePixels = async function(coordinates, color) {
     arrayFilters.push(filterOr);
     const projectionOr = { $or: projectionOrCond };
     const query = { $or: queryOrCond };
+    const update = { $set: { "matrix.$[elem].color": color } };
     const options = {
         new: true,
         arrayFilters: arrayFilters,
@@ -287,11 +215,11 @@ matrixSchema.statics.updatePixels = async function(coordinates, color) {
         }
     };
 
-    return await Matrix.findOneAndUpdate(
-        query,
-        { $set: { "matrix.$[elem].color": color } },
-        options
-    ).exec();
+    let updated = await Matrix.findOneAndUpdate(query, update, options).exec();
+    let aggregation = { query: query, update: update, options: options };
+    let result = { updated: updated, aggregation: aggregation };
+
+    return result;
 
     /**
      * Example mongoose mongodb update:
