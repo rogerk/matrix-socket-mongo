@@ -23,3 +23,4 @@ Technologies Used:
 -   [socket.io](https://socket.io/)
 -   [Node Express](http://expressjs.com/)
 -   [MongoDB](https://www.mongodb.com/)
+-   [Mongoose](https://mongoosejs.com/)
