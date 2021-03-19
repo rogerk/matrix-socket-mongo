@@ -209,7 +209,7 @@ matrixSchema.statics.updatePixels = async function(coordinates, color) {
     const options = {
         new: true,
         arrayFilters: arrayFilters,
-        projection: projectionOr,
+        project: projectionOr,
         fields: {
             rows: 1,
             cols: 1,
@@ -218,6 +218,7 @@ matrixSchema.statics.updatePixels = async function(coordinates, color) {
     };
 
     let updated = await Matrix.findOneAndUpdate(query, update, options).exec();
+//let updated = {};
     let aggregation = { query: query, update: update, options: options };
     let result = { updated: updated, aggregation: aggregation };
 
